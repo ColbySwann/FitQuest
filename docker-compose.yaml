@@ -1,0 +1,18 @@
+services:
+  postgres-db:
+    container_name: fitquest
+    image: postgres
+    restart: always
+    volumes:
+      - ./postgresql_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: fitquest_dev
+      POSTGRES_PASSWORD: fitquest_dev12
+      POSTGRES_DB: fitquest
+      POSTGRES_HOST_AUTH_METHOD: password
+    ports:
+      - "5435:5432"
+
+volumes:
+  postgresql_data:
+    driver: local
