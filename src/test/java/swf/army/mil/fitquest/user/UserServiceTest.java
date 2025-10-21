@@ -30,6 +30,6 @@ public class UserServiceTest {
 
     @Test
     void getAllUsers_shoudReturnListOfUsers() {
-        List<User> testListOfUsers = List.of(new User(1, "HelloWorld", "hello@gmmial.com", "mcnine", 0, 0, 500, 10, 10, 10, 0, LocalDateTime.now(), LocalDateTime.now()));
+        List<User> testListOfUsers = List.of(new User(1, "HelloWorld", "hello@gmmial.com", "mcnine", 0, 0, 500, 10, 10, 10, 0));
     }
 }
