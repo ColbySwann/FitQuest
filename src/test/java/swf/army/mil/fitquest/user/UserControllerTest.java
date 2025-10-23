@@ -34,8 +34,8 @@ public class UserControllerTest {
 
     @MockitoBean
     UserService mockUserService;
-    User user1 = new User(1L, "User1");
-    User user2 = new User(2L, "User2");
+    User user1 = new User(1L, "User1", "user1@aol.com", "user_one");
+    User user2 = new User(2L, "User2", "user2@aol.com", "user_two");
     ArrayList<User> users = new ArrayList<>();
 
     @Autowired
@@ -103,7 +103,7 @@ public class UserControllerTest {
     void shouldUpdateUser() throws Exception{
         Long userId = 1L;
 
-        User updatedUser = new User(userId, "UpdatedUser");
+        User updatedUser = new User(userId, "UpdatedUser", "updatedUser@aol.com", "updated_user");
         when(userService.updateUser(eq(userId), any(User.class))).thenReturn(updatedUser);
 
         String userJson = objectMapper.writeValueAsString(updatedUser);

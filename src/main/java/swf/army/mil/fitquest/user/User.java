@@ -30,12 +30,13 @@ public class User {
     @Column(unique = true, nullable = false)
     private String username;
 
-//    @Column(unique = true, nullable = false)
-//    private String email;
-//
-//    @Column(nullable = false)
-//    private String password;
-//
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+
 //    private int level = 1;
 //    private int current_xp = 0;
 //

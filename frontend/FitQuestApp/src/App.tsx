@@ -1,11 +1,21 @@
-import './App.css'
+import {Outlet} from "react-router-dom";
+import {LoginButton} from "./components/LoginRegisterButtons.tsx";
+
 
 function App() {
 
+
   return (
-    <>
-      <h1>App Page</h1>
-    </>
+      <>
+        <LoginButton />
+
+          <div>
+              <Outlet />
+          </div>
+      </>
+
+
+
   )
 }
 

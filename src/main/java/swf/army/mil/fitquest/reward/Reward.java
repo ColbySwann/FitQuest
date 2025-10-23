@@ -27,6 +27,7 @@ public class Reward {
     private String description;
     private String icon;
     private String requirement;
+    @Transient
     private System rarity;
     private boolean unlocked = false;
 

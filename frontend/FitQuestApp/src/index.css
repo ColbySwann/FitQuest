@@ -1,68 +1,57 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import "tailwindcss";
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+@tailwind utilities;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@layer base {
+    body {
+        @apply bg-[#0A0A12] text-gray-100 antialiased;
+        font-family: "Inter", system-ui, sans-serif;
+    }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-bold text-gray-100;
+    }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+    h1 {
+        @apply text-5xl tracking-wider text-[#D4AF37];
+    }
+
+    /* Links */
+    a {
+        @apply text-[#D4AF37] hover:text-yellow-300 transition-colors;
+    }
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
+@layer components {
+    .card {
+        @apply bg-[#1A1A24]/90 border border-[#2A2A3A] rounded-xl
+        shadow-[0_4px_20px_rgba(0,0,0,0.5)] p-6 backdrop-blur-sm;
+    }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
+    .btn-gold {
+        @apply bg-[#D4AF37] text-black font-semibold px-4 py-2 rounded-md
+        hover:brightness-110 transition;
+    }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+    .tab-bar {
+        @apply flex justify-center space-x-4 bg-[#1B1B27] border border-[#2A2A3A]
+        rounded-full shadow-inner p-1 mb-8;
+    }
+
+    .tab {
+        @apply px-6 py-2 text-sm font-medium text-gray-300 rounded-full
+        hover:bg-[#2A2A3A] transition;
+    }
+
+    .tab-active {
+        @apply bg-[#D4AF37] text-black;
+    }
+
+    .section-title {
+        @apply text-[#D4AF37] text-lg font-semibold mb-4;
+    }
+
+    .panel {
+        @apply bg-[#14141E]/90 border border-[#2A2A3A] rounded-lg p-4;
+    }
 }
