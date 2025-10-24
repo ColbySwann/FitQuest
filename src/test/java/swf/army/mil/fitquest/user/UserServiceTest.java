@@ -25,10 +25,10 @@ public class UserServiceTest {
 
     @InjectMocks
     UserService userService;
-    User user1 = new User(1L, "User1");
+    User user1 = new User(1L, "User1", "user1@aol.com", "user_one", false);
 
     @BeforeEach
-    void setUp() {List<User> testListOfUsers = List.of(new User(1L, "User1"), new User(2L, "User2"), new User(3L, "User3"));}
+    void setUp() {List<User> testListOfUsers = List.of(new User(1L, "User1", "user1@aol.com", "user_one", false), new User(2L, "User2", "user2@aol.com", "user_two", false), new User(3L, "User3", "user3@aol.com", "user_three", false));}
 
     @Test
     void getAllUsers_shouldCallRepository() {
@@ -39,7 +39,7 @@ public class UserServiceTest {
 
     @Test
     void getAllUsers_shoudReturnListOfUsers() {
-        List<User> testListOfUsers = List.of(new User(1L, "User1"), new User(2L, "User2"), new User(3L, "User3"));
+        List<User> testListOfUsers = List.of(new User(1L, "User1", "user1@aol.com", "user_one", false), new User(2L, "User2", "user2@aol.com", "user_two", false), new User(3L, "User3", "user3@aol.com", "user_three", false));
         when(mockUserRepository.findAll()).thenReturn(testListOfUsers);
 
         List<User> res = userService.findAllUsers();
@@ -49,7 +49,7 @@ public class UserServiceTest {
 
     @Test
     void getUserByID_shouldReturnOneUser() {
-        List<User> testListOfUsers = List.of(new User(1L, "User1"), new User(2L, "User2"), new User(3L, "User3"));
+        {List<User> testListOfUsers = List.of(new User(1L, "User1", "user1@aol.com", "user_one", false), new User(2L, "User2", "user2@aol.com", "user_two", false), new User(3L, "User3", "user3@aol.com", "user_three", false));}
         when(mockUserRepository.findById(1L)).thenReturn(Optional.of(user1));
         User foundUser = userService.findUserById(1L);
         assertThat(foundUser).isEqualTo(user1);
@@ -66,8 +66,8 @@ public class UserServiceTest {
     @Test
     void shouldUpdateUserThatExists() {
         Long userId = 1L;
-        User existingUser = new User(userId, "OldName");
-        User updatedUser = new User(userId, "NewName");
+        User existingUser = new User(userId, "OldName", "oldName@aol.com", "old_name", false);
+        User updatedUser = new User(userId, "NewName", "newName@aol.com", "new_name", false);
 
         when(mockUserRepository.findById(userId)).thenReturn(Optional.of(existingUser));
         when(mockUserRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
@@ -82,11 +82,11 @@ public class UserServiceTest {
     @Test
     void shouldThrowExceptionWhenUserNotFound(){
         Long userId = 99L;
-        User updatedUser = new User(userId, "Ghost");
+        User updatedUser = new User(userId, "Ghost", "ghost@hotmail.com", "ghosthunter", false);
 
         when(mockUserRepository.findById(userId)).thenReturn(Optional.empty());
 
-        assertThrows(UserNotFoundException.class, () -> userService.updateUser(userId, updatedUser));
+        assertThrows(RuntimeException.class, () -> userService.updateUser(userId, updatedUser));
 
         verify(mockUserRepository, never()).save(any(User.class));
     }

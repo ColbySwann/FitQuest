@@ -13,9 +13,3 @@ export function LoginButton(){
         </nav>
     )
 }
-
-export function RegisterButton(){
-    return(
-        <nav className={"absolute start-95/100 top-1/41 bg-[#D4AF37] rounded text-black px-4 py-2"}>Register</nav>
-    )
-}

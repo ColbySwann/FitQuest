@@ -8,11 +8,16 @@ import RegistrationPage from "./pages/RegistrationPage.tsx";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import {ErrorPage} from "./pages/ErrorPage.tsx";
 import LayoutPage from "./LayoutPage.tsx";
+import {AuthProvider} from "./context/AuthContext.tsx";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <App />,
+        element: (
+            <AuthProvider>
+            <App />
+            </AuthProvider>
+        ),
         errorElement: <ErrorPage />,
         children: [
             {path: "dashboard", element: <LayoutPage />},
@@ -25,6 +30,6 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router}/>
+          <RouterProvider router={router}/>
   </StrictMode>,
 )

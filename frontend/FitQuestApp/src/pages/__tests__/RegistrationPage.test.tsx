@@ -37,15 +37,15 @@ describe("RegistrationPage", () => {
 
         render(<RegistrationPage />);
 
-        // simulate real typing — RHF listens to 'input' events
+
         await userEvent.type(screen.getByLabelText(/username/i), "Hero");
         await userEvent.type(screen.getByLabelText(/email/i), "hero@test.com");
         await userEvent.type(screen.getByLabelText(/password/i), "strongpass");
 
-        // click submit
+
         await userEvent.click(screen.getByRole("button", { name: /register/i }));
 
-        // wait for axios call
+
         await waitFor(() =>
             expect(mockedAxios.post).toHaveBeenCalledWith(
                 "http://localhost:8080/api/users",

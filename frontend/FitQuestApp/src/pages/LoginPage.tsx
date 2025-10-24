@@ -3,6 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import {useAuth} from "../context/AuthContext.tsx";
 
 const schema = yup.object().shape({
     username: yup.string().required("Username is required"),
@@ -10,6 +11,7 @@ const schema = yup.object().shape({
 });
 
 export default function LoginPage() {
+    const {login}  = useAuth();
 
     const navigate = useNavigate();
 
@@ -20,8 +22,10 @@ export default function LoginPage() {
     } = useForm({ resolver: yupResolver(schema) });
 
     const onSubmit = async (data: any) => {
+        console.log(data)
         try {
-            await axios.post("http://localhost:8080/api/users/login", data);
+             const res = await axios.post("http://localhost:8080/api/users/login", data);
+             login(res.data.username);
             alert("Login successful!");
             navigate("/dashboard");
         } catch (err) {

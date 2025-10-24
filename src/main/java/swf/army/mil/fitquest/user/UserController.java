@@ -16,16 +16,24 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
-    private final UserRepository userRepository;
 
     @GetMapping
     public ResponseEntity<List<User>> getAll() {
         return ResponseEntity.ok(userService.findAllUsers());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public User getUser(@PathVariable Long id) {
         return userService.findUserById(id);
+    }
+
+    @GetMapping("/username/{username}")
+    public ResponseEntity<?> getUserByUsername(@PathVariable String username) {
+        try {
+            return ResponseEntity.ok(userService.findUserByUsername(username));
+        }catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     @PostMapping
@@ -40,6 +48,12 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("/softdelete/{id}")
+    public ResponseEntity<Void> softDeleteUser(@PathVariable Long id) {
+        userService.softDeleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
         User user = userService.updateUser(id, updatedUser);
@@ -48,29 +62,12 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> request) {
-        String username = request.get("username");
-        String password = request.get("password");
-
-        Optional<User> userOpt = userRepository.findByUsername(username);
-
-        if (userOpt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("error", "User not found"));
+        try {
+            Map<String, Object> response = userService.loginUser(request);
+            return ResponseEntity.ok(response);
+        }catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", e.getMessage()));
         }
-
-        User user = userOpt.get();
-
-        if (!user.getPassword().equals(password)){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("error", "Invalid password"));
-        }
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("id", user.getId());
-        response.put("username", user.getUsername());
-
-
-        return ResponseEntity.ok(response);
     }
 
 }

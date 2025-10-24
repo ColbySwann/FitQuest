@@ -1,0 +1,5 @@
+ALTER TABLE users
+    ADD deleted BOOLEAN;
+
+ALTER TABLE users
+    ALTER COLUMN deleted SET NOT NULL;

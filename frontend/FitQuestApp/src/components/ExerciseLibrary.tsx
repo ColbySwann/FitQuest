@@ -16,7 +16,8 @@ export default function ExerciseLibrary({
     return (
         <Card>
             <CardTitle>Exercise Library</CardTitle>
-            
+
         </Card>
     )
 }
+

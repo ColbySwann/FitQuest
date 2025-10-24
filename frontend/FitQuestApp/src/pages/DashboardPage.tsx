@@ -3,8 +3,22 @@ import LivePointsTracker from "../components/LivePointsTracker";
 import WeeklyChallenges from "../components/WeeklyChallenge";
 import RewardsSystem from "../components/RewardSystem";
 import Leaderboard from "../components/Leaderboard";
+import {useEffect} from "react";
+import {useNavigate} from "react-router-dom";
+
+
 
 export default function DashboardPage() {
+    const navigate = useNavigate();
+    const username = localStorage.getItem("username");
+
+    useEffect(() => {
+        if (!username) {
+            navigate("/login")
+            return;
+        }
+    })
+
     return (
         <div className="space-y-8">
             <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-6">

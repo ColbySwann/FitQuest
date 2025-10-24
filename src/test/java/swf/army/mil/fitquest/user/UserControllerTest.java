@@ -32,10 +32,11 @@ public class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+
     @MockitoBean
     UserService mockUserService;
-    User user1 = new User(1L, "User1", "user1@aol.com", "user_one");
-    User user2 = new User(2L, "User2", "user2@aol.com", "user_two");
+    User user1 = new User(1L, "User1", "user1@aol.com", "user_one", false);
+    User user2 = new User(2L, "User2", "user2@aol.com", "user_two", false);
     ArrayList<User> users = new ArrayList<>();
 
     @Autowired
@@ -67,7 +68,7 @@ public class UserControllerTest {
         users.add(user2);
         when(userService.findUserById(1L)).thenReturn(user1);
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/api/users/1"))
+                .get("/api/users/id/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L));
     }
@@ -103,7 +104,7 @@ public class UserControllerTest {
     void shouldUpdateUser() throws Exception{
         Long userId = 1L;
 
-        User updatedUser = new User(userId, "UpdatedUser", "updatedUser@aol.com", "updated_user");
+        User updatedUser = new User(userId, "UpdatedUser", "updatedUser@aol.com", "updated_user", false);
         when(userService.updateUser(eq(userId), any(User.class))).thenReturn(updatedUser);
 
         String userJson = objectMapper.writeValueAsString(updatedUser);
@@ -121,7 +122,7 @@ public class UserControllerTest {
     @Test
     void shouldReturnNotFoundWhenUpdatingNonExistentUser() throws Exception{
         Long userId = 99L;
-        User updatedUser = new User(userId, "Ghost");
+        User updatedUser = new User(userId, "Ghost", "ghost@hotmail.com", "ghosthunter", false);
 
         when(userService.updateUser(eq(userId), any(User.class)))
                 .thenThrow(new UserNotFoundException("User not found with id " + userId));

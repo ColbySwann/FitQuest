@@ -2,7 +2,7 @@ import {Tabs} from "./components/ui/Tabs.tsx";
 import Layout from "./Layout.tsx";
 import {useState} from "react";
 import DashboardPage from "./pages/DashboardPage.tsx";
-import {LoginButton, RegisterButton} from "./components/LoginRegisterButtons.tsx";
+import AccountPage from "./pages/AccountPage.tsx";
 
 const PAGES = [
     "Dashboard",
@@ -11,6 +11,7 @@ const PAGES = [
     "Programs",
     "Events",
     "Character",
+    "Account",
 ] as const;
 
 type Page = typeof PAGES[number];
@@ -38,6 +39,7 @@ export default function LayoutPage() {
 
                 {active === "Dashboard" && <DashboardPage />}
                 {active === "Quests" && <QuestsPage />}
+                {active === "Account" && <AccountPage />}
                 {/*{active === "Exercises" && <ExercisesPage />}*/}
                 {/*{active === "Programs" && <ProgramsPage />}*/}
                 {/*{active === "Events" && <EventsPage />}*/}

@@ -5,13 +5,12 @@ import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import swf.army.mil.fitquest.characterCustomization.CharacterCustomization;
-import swf.army.mil.fitquest.completedWorkout.CompletedWorkout;
-import swf.army.mil.fitquest.quest.CompletedQuest;
-import swf.army.mil.fitquest.reward.Reward;
-import swf.army.mil.fitquest.weeklyChallenge.UserWeeklyChallenge;
-import swf.army.mil.fitquest.workoutProgram.WorkoutProgram;
+//import swf.army.mil.fitquest.characterCustomization.CharacterCustomization;
+//import swf.army.mil.fitquest.completedWorkout.CompletedWorkout;
+//import swf.army.mil.fitquest.quest.CompletedQuest;
+//import swf.army.mil.fitquest.reward.Reward;
+//import swf.army.mil.fitquest.weeklyChallenge.UserWeeklyChallenge;
+//import swf.army.mil.fitquest.workoutProgram.WorkoutProgram;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,6 +34,9 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private boolean deleted = false;
 
 
 //    private int level = 1;
