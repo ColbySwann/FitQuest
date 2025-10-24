@@ -19,17 +19,20 @@ const AccountPage = () => {
 
         axios.get(`http://localhost:8080/api/users/username/${username}`)
             .then(res => {
-            setUser(res.data);
+                console.log("axios" , res.data);
             setForm({
-                username: res.data.username,
-                email: res.data.email,
-                password: "",
-            });
+                    username: res.data.username,
+                    email: res.data.email,
+                    password: "",
+                });
+            setUser(res.data);
+
 
         })
             .catch((err) => {
             console.error("Error fetching user:", err);
         });
+
 
     }, [username, navigate])
 

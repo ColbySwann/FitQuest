@@ -3,9 +3,9 @@ import axios from "axios";
 import {render, screen, waitFor} from "@testing-library/react";
 import AccountPage from "../AccountPage.tsx";
 import {BrowserRouter} from "react-router-dom";
-import {AuthProvider} from "../../context/AuthContext.tsx";
+import {AuthProvider, useAuth} from "../../context/AuthContext.tsx";
 import {act} from "react";
-// import {useAuth} from "../../context/AuthContext.tsx";
+
 
 vi.mock("axios");
 // @ts-ignore
@@ -28,9 +28,8 @@ vi.mock("react-router-dom", async () => {
     }
 })
 
-const testUser = {id: 1, username: "HelloWorld", email: "helloWorld@gmail.com", password: "password"};
+const testUser = {username: "HelloWorld", email: "helloWorld@gmail.com", password: "password"};
 
-const flushPromises = () => new Promise(setImmediate);
 
 describe("AccountPage", () => {
     beforeEach(() => {
@@ -79,27 +78,30 @@ describe("AccountPage", () => {
 
 
     it('should call axios get to pull account info', async () => {
-        mockedAxios.get = vi.fn().mockResolvedValueOnce({data: {testUser}});
+        mockedAxios.get.mockResolvedValueOnce({data: {testUser}});
 
         await act(async () => {
             render(
-                <BrowserRouter>
-                    <AccountPage/>
-                </BrowserRouter>
+                <AuthProvider>
+                    <BrowserRouter>
+                        <AccountPage/>
+                    </BrowserRouter>
+                </AuthProvider>
             );
         })
 
-        await flushPromises();
-
-        // await waitFor(() => {
-        //     expect(mockedAxios.get).toHaveBeenCalled();
-        // });
+        // await flushPromises();
 
         await waitFor(() => {
-            const usernameInput = screen.getByLabelText(/username/i) as HTMLInputElement;
-            const emailInput = screen.getByLabelText(/email/i) as HTMLInputElement;
-            expect(usernameInput).toBe("HelloWorld")
-            expect(emailInput).toBe("helloWorld@gmail.com");
+            expect(mockedAxios.get).toHaveBeenCalled();
+        });
+
+        const usernameInput = await screen.findByLabelText(/username/i);
+        const emailInput = await screen.findByLabelText(/email/i);
+
+        await waitFor(() => {
+            expect(usernameInput).toHaveValue("HelloWorld")
+            expect(emailInput).toHaveValue("helloWorld@gmail.com");
         })
 
 
