@@ -70,4 +70,11 @@ public class UserController {
         }
     }
 
+    @PostMapping("/{id}/add-xp")
+    public ResponseEntity<User> addxp(@PathVariable Long id, @RequestBody Map<String,Integer> body) {
+        int xp = body.getOrDefault("xp", 0);
+        User user = userService.addExperience(id, xp);
+        return ResponseEntity.ok(user);
+    }
+
 }

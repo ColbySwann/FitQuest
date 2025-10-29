@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import swf.army.mil.fitquest.exception.UserNotFoundException;
 
 import java.util.HashMap;
@@ -57,6 +58,12 @@ public class UserService {
 
         user.setUsername(updatedUser.getUsername());
         user.setEmail(updatedUser.getEmail());
+        user.setAgility(updatedUser.getAgility());
+        user.setCurrent_xp(updatedUser.getCurrent_xp());
+        user.setEndurance(updatedUser.getEndurance());
+        user.setLevel(updatedUser.getLevel());
+        user.setXp_to_next_level(getExperienceForLevel(updatedUser.getLevel()));
+        user.setTotal_points(updatedUser.getTotal_points());
 
         if (updatedUser.getPassword() != null && !updatedUser.getPassword().isBlank()) {
             user.setPassword(updatedUser.getPassword());
@@ -88,6 +95,40 @@ public class UserService {
 
 
         return response;
+    }
+
+    @Transactional
+    public User addExperience(Long userId, int xpToAdd) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        int newXp = user.getCurrent_xp() + xpToAdd;
+        int requiredXp = getExperienceForLevel(user.getLevel());
+
+        while (newXp >= requiredXp) {
+            newXp -= requiredXp;
+            user.setLevel(user.getLevel() + 1);
+            requiredXp = getExperienceForLevel(user.getLevel());
+        }
+        user.setCurrent_xp(newXp);
+        user.setXp_to_next_level(requiredXp);
+
+        return userRepository.save(user);
+    }
+
+    public int getExperienceForLevel(int level) {
+        double points = 0;
+        int output = 0;
+
+        for (int lvl = 1; lvl <= level; lvl++) {
+            points += Math.floor(lvl + 300.0 * Math.pow(2.0, lvl / 7.0));
+            if (lvl == level) {
+                return (int) Math.floor(points/4);
+            }
+            output = (int) Math.floor(points / 4);
+        }
+
+        return output;
     }
 
 

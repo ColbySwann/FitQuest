@@ -38,18 +38,22 @@ public class User {
     @Column(nullable = false)
     private boolean deleted = false;
 
+    @Column
+    private int level = 1;
 
-//    private int level = 1;
-//    private int current_xp = 0;
-//
-//    private int xp_to_next_level = 500;
-//    private int strength = 10;
-//    private int endurance = 10;
-//    private int agility = 10;
-//    private int total_points = 0;
-//    private LocalDateTime created_at = LocalDateTime.now();
-//    private LocalDateTime updated_at = LocalDateTime.now();
-//
+    @Column
+    private int current_xp = 0;
+
+    @Column
+    private int xp_to_next_level = 500;
+
+    private int strength = 10;
+    private int endurance = 10;
+    private int agility = 10;
+    private int total_points = 0;
+    private LocalDateTime created_at = LocalDateTime.now();
+    private LocalDateTime updated_at = LocalDateTime.now();
+
 //    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 //    private CharacterCustomization characterCustomization;
 //
@@ -73,4 +77,7 @@ public class User {
 //        this.id = l;
 //        this. username = user1;
 //    }
+
+
+
 }
